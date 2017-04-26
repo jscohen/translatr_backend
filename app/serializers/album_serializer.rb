@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlbumSerializer < ActiveModel::Serializer
   attributes :id, :name
   has_one :song
