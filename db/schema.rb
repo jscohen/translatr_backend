@@ -10,15 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425205137) do
+ActiveRecord::Schema.define(version: 20170426133512) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "albums", force: :cascade do |t|
     t.string   "name"
+    t.integer  "song_id"
+    t.integer  "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["artist_id"], name: "index_albums_on_artist_id", using: :btree
+    t.index ["song_id"], name: "index_albums_on_song_id", using: :btree
   end
 
   create_table "artists", force: :cascade do |t|
@@ -26,8 +30,6 @@ ActiveRecord::Schema.define(version: 20170425205137) do
     t.string   "genre"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "album_id"
-    t.index ["album_id"], name: "index_artists_on_album_id", using: :btree
   end
 
   create_table "examples", force: :cascade do |t|
@@ -43,8 +45,6 @@ ActiveRecord::Schema.define(version: 20170425205137) do
     t.string   "album"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "album_id"
-    t.index ["album_id"], name: "index_songs_on_album_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20170425205137) do
     t.index ["token"], name: "index_users_on_token", unique: true, using: :btree
   end
 
-  add_foreign_key "artists", "albums"
+  add_foreign_key "albums", "artists"
+  add_foreign_key "albums", "songs"
   add_foreign_key "examples", "users"
-  add_foreign_key "songs", "albums"
 end

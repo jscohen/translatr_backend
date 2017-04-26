@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  resources :albums, except: [:new, :edit]
+  resources :albums
   resources :songs, except: [:new, :edit]
   resources :artists, except: [:new, :edit]
   resources :examples, except: [:new, :edit]
