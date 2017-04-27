@@ -2,7 +2,7 @@
 
 API="${API_ORIGIN:-http://localhost:4741}"
 URL_PATH="/change-password"
-curl "${API}${URL_PATH}/${ID}" \
+curl "${API}${URL_PATH}/1" \
   --include \
   --request PATCH \
   --header "Authorization: Token token=${TOKEN}" \

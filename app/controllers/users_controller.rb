@@ -6,16 +6,26 @@ class UsersController < ProtectedController
   # POST '/sign-up'
   def signup
     user = User.create(user_creds)
-    if user.valid?
-      render json: user, status: :created
+     if user.valid?
+       render json: user, status: :created
+     else
+       render json: user.errors, status: :bad_request
+     end
+  end
+
+  def create
+    @user = User.create(user_creds)
+
+    if @user.save
+      render json: @user, status: :created, location: @user
     else
-      render json: user.errors, status: :bad_request
+      render json: @user.errors, status: :unprocessable_entity
     end
   end
 
   # POST '/sign-in'
   def signin
-    creds = user_creds
+    creds = sign_in_creds
     if (user = User.authenticate creds[:email],
                                  creds[:password])
       render json: user, serializer: UserLoginSerializer, root: 'user'
@@ -55,7 +65,11 @@ class UsersController < ProtectedController
   end
 
   def update
-    head :bad_request
+    if @user.update(example_params)
+      head :no_content
+    else
+      render json: @user.errors, status: :unprocessable_entity
+    end
   end
 
   private
@@ -63,6 +77,10 @@ class UsersController < ProtectedController
   def user_creds
     params.require(:credentials)
           .permit(:email, :password, :password_confirmation)
+  end
+
+  def sign_in_creds
+    params.require(:credentials).permit(:email, :password)
   end
 
   def pw_creds

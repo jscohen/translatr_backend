@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426133512) do
+ActiveRecord::Schema.define(version: 20170427153927) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,13 +21,25 @@ ActiveRecord::Schema.define(version: 20170426133512) do
     t.integer  "artist_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "user_id"
     t.index ["artist_id"], name: "index_albums_on_artist_id", using: :btree
     t.index ["song_id"], name: "index_albums_on_song_id", using: :btree
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
+    t.text   "content"
   end
 
   create_table "artists", force: :cascade do |t|
     t.string   "name"
     t.string   "genre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.string   "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -53,11 +65,15 @@ ActiveRecord::Schema.define(version: 20170426133512) do
     t.string   "password_digest", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "album_id"
+    t.index ["album_id"], name: "index_users_on_album_id", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["token"], name: "index_users_on_token", unique: true, using: :btree
   end
 
   add_foreign_key "albums", "artists"
   add_foreign_key "albums", "songs"
+  add_foreign_key "albums", "users", name: "albums_user_id_fkey"
   add_foreign_key "examples", "users"
+  add_foreign_key "users", "albums"
 end

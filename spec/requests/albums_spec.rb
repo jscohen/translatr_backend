@@ -27,7 +27,6 @@ RSpec.describe 'Albums', type: :request do
   describe 'GET /albums/:id' do
     it 'shows one album' do
       get "/albums/#{album.id}"
-
       expect(response).to be_success
       album_response = JSON.parse(response.body)
 

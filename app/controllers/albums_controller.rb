@@ -26,6 +26,8 @@ class AlbumsController < ApplicationController
 
   # PATCH/PUT /albums/1
   def update
+    @album.update(album_params)
+
     if @album.update(album_params)
       render json: @album
     else
@@ -45,7 +47,7 @@ class AlbumsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def album_params
-      params.require(:album).permit(:name, :song_id, :artist_id)
-    end
+  def album_params
+    params.require(:album).permit(:name, :song_id, :artist_id, :user_id)
+  end
 end
