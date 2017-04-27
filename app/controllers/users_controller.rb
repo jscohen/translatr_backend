@@ -65,7 +65,9 @@ class UsersController < ProtectedController
   end
 
   def update
-    if @user.update(example_params)
+    @user.update(update_params)
+
+    if @user.update(update_params)
       head :no_content
     else
       render json: @user.errors, status: :unprocessable_entity
@@ -86,6 +88,14 @@ class UsersController < ProtectedController
   def pw_creds
     params.require(:passwords)
           .permit(:old, :new)
+  end
+
+  def token
+    params.require(:token).permit(:album_id)
+  end
+
+  def update_params
+    params.require(:user)
   end
 
   private :user_creds, :pw_creds
