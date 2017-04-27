@@ -3,7 +3,7 @@ curl --include --request POST http://localhost:4741/sign-in \
   --data '{
     "credentials": {
       "email": "jon",
-      "password": "1"
+      "password": "2"
     }
   }'
 echo
