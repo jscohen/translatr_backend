@@ -13,22 +13,31 @@ response = Net::HTTP.get(song)
 # puts response
 hash = JSON.parse(response)
 
+track_id = 0
+
 def ihash(hash)
   hash.each_pair do |k, v|
-    if k == 'track_id'
-      p k
-      break
-    elsif v == 'track_id'
-      p v
-      break
-    elsif v.is_a?(Hash)
-      ihash(v)
-      if v.has_key?("track_id")
-        p v
+    v.each do |key, value|
+      if key == 'body'
+        value.each do |key1, value1|
+          value1.each do |i|
+            i.each do |key2, value2|
+              value2.each do |key3, value3|
+                if key3 == 'track_id'
+                  return value3
+                end
+              end
+            end
+          end
+        end
       end
     end
   end
 end
 
-ihash(hash)
+track_id = ihash(hash)
+
+p track_id
+
+# p track_id
 #puts track_id
