@@ -1,4 +1,4 @@
-require 'lyrics-api'
+load 'lyrics-api.rb'
 
 class LyricsController < ApplicationController
   before_action :set_lyric, only: [:show, :update, :destroy]
@@ -19,7 +19,7 @@ class LyricsController < ApplicationController
   def create
     @lyric = Lyric.new(lyric_params)
 
-    @lyric.text = get_full_lyrics(params[:artist], params[:title])
+    @lyric.text = get_full_lyrics(lyric_params[:artist], lyric_params[:title])
 
     if @lyric.save
       render json: @lyric, status: :created, location: @lyric
