@@ -3,32 +3,33 @@ require 'uri'
 require 'json'
 
 def translate(lyrics)
-  lyrics.split("").each do |i|
+  local = lyrics
+  local.split("").each do |i|
     if i == " "
-      lyrics.sub!(i, '%20')
+      local.sub!(i, '%20')
     elsif i == 'ù'
-      lyrics.sub!(i, '%0249')
+      local.sub!(i, '%0249')
     elsif i == 'Ù'
-      lyrics.sub!(i, '%0217')
+      local.sub!(i, '%0217')
     elsif i == 'À'
-      lyrics.sub!(i, '%0192')
+      local.sub!(i, '%0192')
     elsif i == 'à'
-      lyrics.sub!(i, '%0224')
+      local.sub!(i, '%0224')
     elsif i == 'è'
-      lyrics.sub!(i, '%0232')
+      local.sub!(i, '%0232')
     elsif i == 'È'
-      lyrics.sub!(i, '%0200')
+      local.sub!(i, '%0200')
     elsif i == 'ò'
-      lyrics.sub!(i, '%0242')
+      local.sub!(i, '%0242')
     elsif i == "\'"
-      lyrics.sub!(i, '%27')
+      local.sub!(i, '%27')
     elsif i == 'ì'
-      lyrics.sub!(i, '%0236')
+      local.sub!(i, '%0236')
     elsif i == 'Ì'
-      lyrics.sub!(i, '%0204')
+      local.sub!(i, '%0204')
     end
   end
-  trans = translations(lyrics)
+  trans = translations(local)
   trans
 end
 

@@ -20,14 +20,52 @@ class LyricsController < ApplicationController
   def create
     @lyric = Lyric.new(lyric_params)
 
-    @lyric.text = get_full_lyrics(lyric_params[:artist], lyric_params[:title])
-    @lyric.translation = translate(@lyric.text)
+    artist = lyric_params[:artist]
+    title = lyric_params[:title]
+
+    song_text = get_full_lyrics(artist, title)
+
+    @lyric.translation = translate(song_text)
+
+    @lyric.text = song_text
+
+    @lyric.text = clean_lyrics(@lyric.text)
 
     if @lyric.save
       render json: @lyric, status: :created, location: @lyric
     else
       render json: @lyric.errors, status: :unprocessable_entity
     end
+  end
+
+  def clean_lyrics(lyrics)
+    local = lyrics
+    local.split("").each do |i|
+      if i == "%20"
+        local.sub!(i, ' ')
+      elsif i == '%0249'
+        local.sub!(i, 'ù')
+      elsif i == '%0217'
+        local.sub!(i, 'Ù')
+      elsif i == '%0192'
+        local.sub!(i, 'À')
+      elsif i == '%0224'
+        local.sub!(i, 'à')
+      elsif i == '%0232'
+        local.sub!(i, 'è')
+      elsif i == '%0200'
+        local.sub!(i, 'È')
+      elsif i == '%0242'
+        local.sub!(i, 'ò')
+      elsif i == "%27"
+        local.sub!(i, '\'')
+      elsif i == '%0236'
+        local.sub!(i, 'ì')
+      elsif i == '%0204'
+        local.sub!(i, 'Ì')
+      end
+    end
+    local
   end
 
   # PATCH/PUT /lyrics/1
