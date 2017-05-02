@@ -27,6 +27,26 @@ def translate(lyrics)
       local_lyrics.sub!(i, '%0236')
     elsif i == 'Ì'
       local_lyrics.sub!(i, '%0204')
+    elsif i == 'Ù'
+      local_lyrics.sub!(i, '%0217')
+    elsif i == 'ù'
+      local_lyrics.sub!(i, '%0249')
+    elsif i == 'ó'
+      local_lyrics.sub!(i, '%0243')
+    elsif i == 'Ó'
+      local_lyrics.sub!(i, '%0211')
+    elsif i == 'á'
+      local_lyrics.sub!(i, '%0225')
+    elsif i == 'Á'
+      local_lyrics.sub!(i, '%0193')
+    elsif i == 'é'
+      local_lyrics.sub!(i, '%0233')
+    elsif i == 'É'
+      local_lyrics.sub!(i, '%0201')
+    elsif i == 'ú'
+      local_lyrics.sub!(i, '%0250')
+    elsif i == 'ñ'
+      local_lyrics.sub!(i, '%0241')
     end
   end
   trans = translations(local_lyrics)
