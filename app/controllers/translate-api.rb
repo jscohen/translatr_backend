@@ -37,7 +37,7 @@ def translations(lyrics)
 
   url = 'https://translate.yandex.net/api/v1.5/tr.json/'
 
-  translate = URI(url + 'translate?lang=it-en&key=' + key + '&text=' + lyrics)
+  translate = URI(url + 'translate?&key=' + key + '&lang=en&text=' + lyrics + '&options=1')
 
   get_trans = Net::HTTP.get(translate)
 
