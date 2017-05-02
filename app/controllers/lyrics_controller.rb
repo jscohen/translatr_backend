@@ -25,12 +25,9 @@ class LyricsController < ApplicationController
 
     song_text = get_full_lyrics(artist, title)
 
-    @lyric.translation = translate(song_text)
-
     @lyric.text = song_text
 
-    @lyric.text = clean_lyrics(@lyric.text)
-
+    @lyric.translation = translate(song_text)
     if @lyric.save
       render json: @lyric, status: :created, location: @lyric
     else
