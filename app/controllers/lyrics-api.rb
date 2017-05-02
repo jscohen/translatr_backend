@@ -20,8 +20,6 @@ def get_full_lyrics(artist, title)
   # puts response
   hash = JSON.parse(response)
 
-  track_id = 0
-
   def trackhash(hash)
     hash.each_pair do |k, v|
       v.each do |key, value|

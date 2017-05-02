@@ -54,7 +54,7 @@ class LyricsController < ApplicationController
         local.sub!(i, 'È')
       elsif i == '%0242'
         local.sub!(i, 'ò')
-      elsif i == "%27"
+      elsif i == '%27'
         local.sub!(i, '\'')
       elsif i == '%0236'
         local.sub!(i, 'ì')
