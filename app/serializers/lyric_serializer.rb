@@ -1,3 +1,3 @@
 class LyricSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :text
 end

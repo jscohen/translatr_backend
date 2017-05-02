@@ -48,7 +48,7 @@ class LyricsController < ApplicationController
     end
 
     # Only allow a trusted parameter "white list" through.
-    def song_params
+    def lyric_params
       params.require(:lyrics).permit(:song_id)
     end
 end
