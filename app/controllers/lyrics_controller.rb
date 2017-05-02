@@ -1,4 +1,5 @@
 load 'lyrics-api.rb'
+load 'translate-api.rb'
 
 class LyricsController < ApplicationController
   before_action :set_lyric, only: [:show, :update, :destroy]
