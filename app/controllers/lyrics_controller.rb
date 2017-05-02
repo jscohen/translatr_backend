@@ -19,7 +19,8 @@ class LyricsController < ApplicationController
   def create
     @lyric = Lyric.new(lyric_params)
 
-    @lyric.text = get_full_lyrics
+    @lyric.text = get_full_lyrics(params[:artist], params[:title])
+
     if @lyric.save
       render json: @lyric, status: :created, location: @lyric
     else
@@ -49,6 +50,6 @@ class LyricsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def lyric_params
-      params.require(:lyrics).permit(:song_id)
+      params.require(:lyrics).permit(:song_id, :artist, :title)
     end
 end
