@@ -4,12 +4,18 @@ require 'open-uri'
 require 'net/http'
 require 'json'
 
-def get_full_lyrics
+def get_full_lyrics(artist, title)
   key = 'apikey=ddaaba14dee2f996db5626c25b66564b'
 
   url = 'http://api.musixmatch.com/ws/1.1/'
 
-  song = URI(url + 'track.search?' + key + '&q_artist=laura%20pausini&q_track=la%20solitudine&format=json&page_size=1&has_lyrics=1')
+  artist.downcase!
+  artist_fin = artist.sub(' ', '%20')
+
+  title.downcase!
+  title_fin = title.sub(' ', '%20')
+
+  song = URI(url + 'track.search?' + key + '&q_artist=' + artist_fin + '&q_track=' + title_fin + '&format=json&page_size=1&has_lyrics=1')
   response = Net::HTTP.get(song)
   # puts response
   hash = JSON.parse(response)
