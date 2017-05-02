@@ -3,7 +3,7 @@ curl --include --request POST http://localhost:4741/lyrics \
   --data '{
     "lyrics": {
       "song_id": "6",
-      "title": "La Solitudine",
+      "title": "Ragazze Che",
       "artist": "Laura Pausini"
     }
   }'
