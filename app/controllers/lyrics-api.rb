@@ -10,7 +10,7 @@ require 'json'
 
 def get_full_lyrics(artist, title)
   # MusixMatch API Key
-  key = 'apikey=ddaaba14dee2f996db5626c25b66564b'
+  key = ENV["MUSIXMATCH_API_KEY"]
 
   # MusixMatch API base URL
   url = 'http://api.musixmatch.com/ws/1.1/'
@@ -24,7 +24,7 @@ def get_full_lyrics(artist, title)
   title_fin = title.sub(' ', '%20')
 
   # Call the MusixMatch API and store result in song
-  song = URI(url + 'track.search?' + key + '&q_artist=' + artist_fin + '&q_track=' + title_fin + '&format=json&page_size=1&has_lyrics=1')
+  song = URI(url + 'track.search?apikey=' + key + '&q_artist=' + artist_fin + '&q_track=' + title_fin + '&format=json&page_size=1&has_lyrics=1')
   response = Net::HTTP.get(song)
   # Store the call's result in the hash variable as JSON
   hash = JSON.parse(response)
