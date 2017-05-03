@@ -1,25 +1,38 @@
 # frozen_string_literal: true
 
+# This file gets song lyrics for the artist and title passed
+# It cleans the data and then sends an API request to the MusixMatch database
+# The result is stored in JSON and iterated through until we can get the lyrics
+
 require 'open-uri'
 require 'net/http'
 require 'json'
 
 def get_full_lyrics(artist, title)
+  # MusixMatch API Key
   key = 'apikey=ddaaba14dee2f996db5626c25b66564b'
 
+  # MusixMatch API base URL
   url = 'http://api.musixmatch.com/ws/1.1/'
 
+  # Clean artist data so it can go in a URL
   artist.downcase!
   artist_fin = artist.sub(' ', '%20')
 
+  # Clean title data so it can go in a URL
   title.downcase!
   title_fin = title.sub(' ', '%20')
 
+  # Call the MusixMatch API and store result in song
   song = URI(url + 'track.search?' + key + '&q_artist=' + artist_fin + '&q_track=' + title_fin + '&format=json&page_size=1&has_lyrics=1')
   response = Net::HTTP.get(song)
-  # puts response
+  # Store the call's result in the hash variable as JSON
   hash = JSON.parse(response)
 
+  # Iterate through the hash to get the track ID which we need to get lyrics
+  # JSON is a hash of hashes, so we have to iterate through each one
+  # There's probably a better way
+  # Return the track ID
   def trackhash(hash)
     hash.each_pair do |k, v|
       v.each do |key, value|
@@ -40,18 +53,21 @@ def get_full_lyrics(artist, title)
     end
   end
 
+  # Get the track ID by calling trackhash
   track_id = trackhash(hash)
 
   p track_id
 
   track_id = track_id.to_s
 
+  # Using the track ID, make a second API call to get the lyrics
   lyrics = URI(url + 'track.lyrics.get?' + key + '&track_id=' + track_id)
-
   getlyrics = Net::HTTP.get(lyrics)
 
+  # Store the result in a JSON hash
   lyricshash = JSON.parse(getlyrics)
 
+  # Iterate through the lyrics hash to get the lyrics like above
   def getlyrics(lyricshash)
     lyricshash.each_pair do |k, v|
       v.each do |key, value|
@@ -68,7 +84,7 @@ def get_full_lyrics(artist, title)
     end
   end
 
+  # Return the lyrics
   fin_lyrics = getlyrics(lyricshash)
   fin_lyrics
 end
-#puts track_id

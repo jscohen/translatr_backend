@@ -1,9 +1,19 @@
+# This program calls the Yandex API to translate song lyrics
+# The API detects the language of the lyrics, so any language
+# Using the latin alphabet can be used
+# The exception is non-ASCII characters, which must be escaped
+
 require 'net/http'
 require 'uri'
 require 'json'
 
+# Pass the song lyrics from the lyrics controller into here
 def translate(lyrics)
+  # Create a local object so that the original lyrics object isn't changed
   local_lyrics = lyrics.clone
+  # Iterate through each character and look for non-ASCII characters
+  # Specifically Italian and Spanish characters
+  # Replace them with escape values
   local_lyrics.split('').each do |i|
     if i == ' '
       local_lyrics.sub!(i, '%20')
@@ -49,28 +59,36 @@ def translate(lyrics)
       local_lyrics.sub!(i, '%0241')
     end
   end
+
+  # Get the translation and return it
   trans = translations(local_lyrics)
   trans
 end
 
 def translations(lyrics)
+  # Yandex API Key
   key = 'trnsl.1.1.20170502T140240Z.e335e8f283001e99.9b5c9ad87ddb4e729013b79f9009d8a6b993602f'
 
+  # Yandex API base URL
   url = 'https://translate.yandex.net/api/v1.5/tr.json/'
 
+  # Make an API call to get the translation of the lyrics
   translate = URI(url + 'translate?&key=' + key + '&lang=en&text=' + lyrics + '&options=1')
 
   get_trans = Net::HTTP.get(translate)
 
+  # Parse the response as JSON
   t = JSON.parse(get_trans)
 
   translation = ''
 
+  # Iterate through the JSON response to find the translation
   t.each do |key, value|
     if key == 'text'
       translation = value[0]
     end
   end
 
+  # Return the translation
   translation
 end
