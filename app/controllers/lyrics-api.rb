@@ -29,30 +29,6 @@ def get_full_lyrics(artist, title)
   # Store the call's result in the hash variable as JSON
   hash = JSON.parse(response)
 
-  # Iterate through the hash to get the track ID which we need to get lyrics
-  # JSON is a hash of hashes, so we have to iterate through each one
-  # There's probably a better way
-  # Return the track ID
-  def trackhash(hash)
-    hash.each_pair do |k, v|
-      v.each do |key, value|
-        if key == 'body'
-          value.each do |key1, value1|
-            value1.each do |i|
-              i.each do |key2, value2|
-                value2.each do |key3, value3|
-                  if key3 == 'track_id'
-                    return value3
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-  end
-
   # Get the track ID by calling trackhash
   track_id = trackhash(hash)
 
@@ -67,15 +43,45 @@ def get_full_lyrics(artist, title)
   # Store the result in a JSON hash
   lyricshash = JSON.parse(getlyrics)
 
-  # Iterate through the lyrics hash to get the lyrics like above
-  def getlyrics(lyricshash)
-    lyricshash.each_pair do |k, v|
-      v.each do |key, value|
+  # Return the lyrics
+  fin_lyrics = getlyrics(lyricshash)
+  fin_lyrics
+end
+
+# Iterate through the hash to get the track ID which we need to get lyrics
+# JSON is a hash of hashes, so we have to iterate through each one
+# There's probably a better way
+# Return the track ID
+
+def getlyrics(lyricshash)
+  lyricshash.each_pair do |k, v|
+    v.each do |key, value|
+      value.each do |key1, value1|
+        if value1.is_a?(Hash)
+          value1.each do |key2, value2|
+            if key2 == 'lyrics_body'
+              return value2
+            end
+          end
+        end
+      end
+    end
+  end
+end
+
+# Iterate through the lyrics hash to get the lyrics like above
+
+def trackhash(hash)
+  hash.each_pair do |k, v|
+    v.each do |key, value|
+      if key == 'body'
         value.each do |key1, value1|
-          if value1.is_a?(Hash)
-            value1.each do |key2, value2|
-              if key2 == 'lyrics_body'
-                return value2
+          value1.each do |i|
+            i.each do |key2, value2|
+              value2.each do |key3, value3|
+                if key3 == 'track_id'
+                  return value3
+                end
               end
             end
           end
@@ -83,8 +89,4 @@ def get_full_lyrics(artist, title)
       end
     end
   end
-
-  # Return the lyrics
-  fin_lyrics = getlyrics(lyricshash)
-  fin_lyrics
 end
