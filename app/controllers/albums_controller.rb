@@ -37,9 +37,14 @@ class AlbumsController < ApplicationController
 
   # PATCH/PUT /albums/1
   def update
-    @album.update(album_params)
+    if @album.user_id != update_params[:user_id].to_i
+      render json: @album.errors, status: 403
+      return
+    end
 
-    if @album.update(album_params)
+    @album.update(update_params)
+
+    if @album.update(update_params)
       render json: @album
     else
       render json: @album.errors, status: :unprocessable_entity
@@ -64,5 +69,9 @@ class AlbumsController < ApplicationController
 
   def user_params
     params.require(:album).permit(:album_id)
+  end
+
+  def update_params
+    params.require(:album).permit(:user_id, :name)
   end
 end
