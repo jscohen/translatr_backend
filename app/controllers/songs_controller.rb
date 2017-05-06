@@ -25,6 +25,11 @@ class SongsController < ApplicationController
 
   # PATCH/PUT /songs/1
   def update
+    if @song.user_id != song_params[:user_id].to_i
+      render json: @song.errors, status: 403
+      return
+    end
+
     if @song.update(song_params)
       render json: @song
     else
@@ -34,6 +39,11 @@ class SongsController < ApplicationController
 
   # DELETE /songs/1
   def destroy
+    if @song.user_id != delete_params[:user_id].to_i
+      render json: @song.errors, status: 403
+      return
+    end
+
     @song.destroy
   end
 
@@ -47,5 +57,9 @@ class SongsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def song_params
     params.require(:song).permit(:name, :album_id, :artist_id, :user_id)
+  end
+
+  def delete_params
+    params.require(:song).permit(:user_id)
   end
 end
