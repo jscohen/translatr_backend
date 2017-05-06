@@ -13,17 +13,6 @@ class AlbumsController < ApplicationController
     render json: @album
   end
 
-  def get_albums
-    # @albums = Album.all
-    # render json: @albums
-    @albums = Album.find(user_params)
-    if @albums
-      render json: @album
-    else
-      head :no_content
-    end
-  end
-
   # POST /albums
   def create
     @album = Album.new(album_params)
@@ -36,6 +25,7 @@ class AlbumsController < ApplicationController
   end
 
   # PATCH/PUT /albums/1
+  # Authentication: Users can't change another user's albums
   def update
     if @album.user_id != update_params[:user_id].to_i
       render json: @album.errors, status: 403
@@ -53,6 +43,13 @@ class AlbumsController < ApplicationController
 
   # DELETE /albums/1
   def destroy
+    # Authentication: Users can't change another user's albums
+
+    if @album.user_id != destroy_params[:user_id].to_i
+      render json: @album.errors, status: 403
+      return
+    end
+
     @album.destroy
   end
 
@@ -73,5 +70,9 @@ class AlbumsController < ApplicationController
 
   def update_params
     params.require(:album).permit(:user_id, :name)
+  end
+
+  def destroy_params
+    params.require(:album).permit(:user_id)
   end
 end

@@ -26,6 +26,11 @@ class ArtistsController < ApplicationController
 
   # PATCH/PUT /artists/1
   def update
+    if @artist.user_id != artist_params[:user_id].to_i
+      render json: @artist.errors, status: 403
+      return
+    end
+
     if @artist.update(artist_params)
       render json: @artist
     else
@@ -35,6 +40,11 @@ class ArtistsController < ApplicationController
 
   # DELETE /artists/1
   def destroy
+    if @artist.user_id != delete_params[:user_id].to_i
+      render json: @artist.errors, status: 403
+      return
+    end
+
     @artist.destroy
   end
 
@@ -47,5 +57,9 @@ class ArtistsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def artist_params
       params.require(:artist).permit(:name, :genre, :user_id)
+    end
+
+    def delete_params
+      params.require(:artist).permit(:user_id)
     end
 end
