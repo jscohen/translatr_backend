@@ -2,6 +2,5 @@
 
 class User < ApplicationRecord
   include Authentication
-  has_many :albums
-  has_many :artists
+  has_many :songs
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class SongSerializer < ActiveModel::Serializer
-  attributes :id, :name, :album_id, :artist_id, :user_id
+  attributes :id, :name, :user_id
 end

@@ -56,7 +56,7 @@ class SongsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def song_params
-    params.require(:song).permit(:name, :album_id, :artist_id, :user_id)
+    params.require(:song).permit(:name, :album, :user_id)
   end
 
   def delete_params

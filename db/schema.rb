@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170506151032) do
+ActiveRecord::Schema.define(version: 20170509184700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,11 +72,7 @@ ActiveRecord::Schema.define(version: 20170506151032) do
     t.string   "album"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer  "artist_id"
     t.integer  "user_id"
-    t.integer  "album_id"
-    t.index ["album_id"], name: "index_songs_on_album_id", using: :btree
-    t.index ["artist_id"], name: "index_songs_on_artist_id", using: :btree
     t.index ["user_id"], name: "index_songs_on_user_id", using: :btree
   end
 
@@ -93,14 +89,11 @@ ActiveRecord::Schema.define(version: 20170506151032) do
   end
 
   add_foreign_key "albums", "artists"
-  add_foreign_key "albums", "songs"
   add_foreign_key "albums", "users", name: "albums_user_id_fkey"
   add_foreign_key "artists", "albums"
   add_foreign_key "artists", "users"
   add_foreign_key "examples", "users"
   add_foreign_key "lyrics", "songs"
-  add_foreign_key "songs", "albums"
-  add_foreign_key "songs", "artists"
   add_foreign_key "songs", "users"
   add_foreign_key "users", "albums"
 end
