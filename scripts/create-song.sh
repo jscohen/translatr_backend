@@ -3,6 +3,7 @@ curl --include --request POST http://localhost:4741/songs \
   --data '{
     "song": {
       "name": "TEST",
+      "artist": "TEST",
       "album": "TEST",
       "user_id": "3"
     }
