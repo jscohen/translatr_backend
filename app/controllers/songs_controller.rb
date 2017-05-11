@@ -60,6 +60,6 @@ class SongsController < ApplicationController
   end
 
   def delete_params
-    params.require(:song).permit(:user_id)
+    params.require(:song).permit(:user_id, :song_id)
   end
 end

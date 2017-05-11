@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class Lyric < ApplicationRecord
-  belongs_to :song
+  belongs_to :song, foreign_key: 'song_id'
 end
