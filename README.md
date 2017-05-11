@@ -17,7 +17,7 @@ This project turned out much differently than I originally planned.  I had not c
 
 The relationships I actually made were more complex.  I had to create albums that belonged to both artists and users and had many songs.  So the foreign keys were artist ID and user ID.  I created an Artist resource that has many songs and belongs to user, with a foreign key of user id.  I also made a Song resource that belongs to Artist, User and Album.  I originally thought that the Ablum would bring the relationships together, it turned out to be Song that does that.
 
-Finally, I realized later that I had to make a new resource for the translations.  I made the Lyric resource for this and set it to belong to song.  In the back end, I made two additional programs, lyrics-api.rb, and translate-api.rb, to handle the functionality.  This required a significant amount of improvisation as I had not used third party APIs in the past.  I used the musixmatch API to get song lyrics and the glosbe API to translate the lyrics.
+Finally, I realized later that I had to make a new resource for the translations.  I made the Lyric resource for this and set it to belong to song.  In the back end, I made two additional programs, lyrics-api.rb, and translate-api.rb, to handle the functionality.  This required a significant amount of improvisation as I had not used third party APIs in the past.  I used the musixmatch API to get song lyrics and the glosbe API to translate the lyrics.  
 
 [Original Resource Relations](http://i.imgur.com/KpPiMIh.jpg)
 [Actual Resource Relations](http://i.imgur.com/XdImP7V.jpg)
